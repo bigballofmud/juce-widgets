@@ -26,6 +26,8 @@
 #ifdef GIN_AVAILABLE
 #define JUCE_MODULE_AVAILABLE_gin
 #include "gin/gin.h"
+#else
+#include "ColourPropertyComponent.h"
 #endif
 
 #include <spdlog/spdlog.h>
@@ -154,9 +156,11 @@ juce::PropertyComponent *PropertyEditor::createEditor(std::shared_ptr<TypedNamed
     case ValueType::String:
         return new juce::TextPropertyComponent(juce::Value(property->value()), property->name(), property->maxValue(), property->multiLine(),
             property->enabled());
-#ifdef GIN_AVAILABLE
     case ValueType::Color:
+#ifdef GIN_AVAILABLE
         return new gin::ColourPropertyComponent(juce::Value(property->value()), property->name(), false);
+#else
+        return new ColourPropertyComponent(juce::Value(property->value()), property->name(), false);
 #endif
     default:
         // Type needs to be implemented

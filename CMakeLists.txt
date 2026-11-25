@@ -46,6 +46,7 @@ set(Sources
 	CategoryButtons.cpp CategoryButtons.h
 	CollapsibleContainer.cpp CollapsibleContainer.h
 	ColourHelpers.cpp ColourHelpers.h
+	ColourPropertyComponent.cpp ColourPropertyComponent.h
 	CustomizedRotary.cpp CustomizedRotary.h
 	EditFocusKeeper.h EditFocusKeeper.cpp
 	HorizontalLayoutContainer.cpp HorizontalLayoutContainer.h
