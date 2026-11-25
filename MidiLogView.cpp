@@ -44,10 +44,13 @@ void MidiLogView::addMessageToList(const juce::MidiMessage& message, const juce:
 
 void MidiLogView::addMessageToList(double time, const juce::String& description, const juce::String& bytes, const juce::String& source, bool isOut)
 {
-    const int hours = ((int) (time / 3600.0)) % 24;
-    const int minutes = ((int) (time / 60.0)) % 60;
-    const int seconds = ((int) time) % 60;
-    const int millis = ((int) (time * 1000.0)) % 1000;
+    // Use 64-bit milliseconds: time is seconds since boot, and (int)(time * 1000) overflows
+    // after ~24.8 days of uptime, which made the millisecond field negative and constant.
+    const juce::int64 totalMillis = (juce::int64) (time * 1000.0);
+    const int hours = (int) ((totalMillis / 3600000) % 24);
+    const int minutes = (int) ((totalMillis / 60000) % 60);
+    const int seconds = (int) ((totalMillis / 1000) % 60);
+    const int millis = (int) (totalMillis % 1000);
 
     std::string timecode = fmt::format("{:02d}:{:02d}:{:02d}.{:03d}", hours, minutes, seconds, millis);
 
